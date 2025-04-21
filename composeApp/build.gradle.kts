@@ -19,7 +19,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
-    id("com.codingfeline.buildkonfig") version "+"
+    alias(libs.plugins.codingfeline.buildkonfig)
+    alias(libs.plugins.neopool.detekt)
 }
 
 kotlin {
@@ -33,7 +34,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -106,7 +107,7 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.neopool.project"
+        applicationId = namespace
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -146,6 +147,6 @@ compose.desktop {
 
 fun <T : Any> propOrDef(propertyName: String): T {
     @Suppress("UNCHECKED_CAST")
-    val propertyValue = project.properties[propertyName] as T?
+    val propertyValue = project.properties[propertyName] as? T
     return propertyValue ?: error("Property $propertyName not found")
 }
