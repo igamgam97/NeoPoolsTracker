@@ -17,26 +17,26 @@ import java.time.Duration
 
 class NeoPoolRewardTrackerWorker(
     private val context: Context,
-    workerParams: WorkerParameters
+    workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams), KoinComponent {
 
     companion object {
 
         const val UNIQUE_WORK_NAME = "pool_widget_update"
+        private const val UPDATE_INTERVAL_MINUTES = 60L
 
         fun scheduleUpdates(context: Context) {
             val workManager = WorkManager.getInstance(context)
             val updateRequest = PeriodicWorkRequestBuilder<NeoPoolRewardTrackerWorker>(
-                Duration.ofMinutes(60),
+                Duration.ofMinutes(UPDATE_INTERVAL_MINUTES),
             ).build()
 
             workManager.enqueueUniquePeriodicWork(
                 "pool_widget_update",
                 ExistingPeriodicWorkPolicy.UPDATE,
-                updateRequest
+                updateRequest,
             )
         }
-
 
         fun requestUpdate(context: Context) {
             val workManager = WorkManager.getInstance(context)
@@ -49,6 +49,8 @@ class NeoPoolRewardTrackerWorker(
 
     private val poolRepository: PoolRepository by inject()
 
+    // TODO(GlebShcherbakov) move later to viewmodel by koin
+    @Suppress("InjectDispatcher")
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
             val poolResult = poolRepository.getPoolData()
@@ -64,7 +66,7 @@ class NeoPoolRewardTrackerWorker(
             } else {
                 Result.retry()
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Result.failure()
         }
     }

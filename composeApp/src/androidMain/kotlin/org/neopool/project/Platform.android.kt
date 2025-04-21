@@ -1,3 +1,5 @@
+@file:Suppress("MatchingDeclarationName")
+
 package org.neopool.project
 
 import android.os.Build

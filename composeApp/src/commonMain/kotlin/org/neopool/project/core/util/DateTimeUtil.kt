@@ -14,4 +14,4 @@ fun formatTimestamp(timestamp: Long): String {
     val instant = Instant.fromEpochSeconds(timestamp)
     val localDateTime = instant.toLocalDateTime(TimeZone.UTC)
     return "${localDateTime.date} ${localDateTime.time}"
-} 
+}

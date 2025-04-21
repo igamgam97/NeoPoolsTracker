@@ -56,10 +56,10 @@ class PoolViewModel(
                         _singleEvent.emit(
                             PoolSingleEvent.ShowError(
                                 errorMessage,
-                            )
+                            ),
                         )
-                    }
+                    },
                 )
         }
     }
-} 
+}

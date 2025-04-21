@@ -12,11 +12,13 @@ import kotlinx.serialization.json.Json
 
 object KtorHttpClient {
 
+    private const val TIME_OUT = 60_000L
+
     @OptIn(ExperimentalSerializationApi::class)
     fun httpClient() = HttpClient {
         expectSuccess = false
         install(HttpTimeout) {
-            val timeout = 60000L
+            val timeout = TIME_OUT
             connectTimeoutMillis = timeout
             requestTimeoutMillis = timeout
             socketTimeoutMillis = timeout
@@ -33,15 +35,16 @@ object KtorHttpClient {
             }
         }
         install(ContentNegotiation) {
-            json(Json {
-                explicitNulls = false
-                ignoreUnknownKeys = true
-                isLenient = true
-                prettyPrint = true
-                encodeDefaults = true
-                classDiscriminator = "#class"
-            })
+            json(
+                Json {
+                    explicitNulls = false
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    prettyPrint = true
+                    encodeDefaults = true
+                    classDiscriminator = "#class"
+                },
+            )
         }
-
     }
 }

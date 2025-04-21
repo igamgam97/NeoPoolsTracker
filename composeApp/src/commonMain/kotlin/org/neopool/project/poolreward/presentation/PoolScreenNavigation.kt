@@ -5,8 +5,7 @@ import androidx.navigation.compose.composable
 
 const val PoolNavigationRoute = "pool"
 
-fun NavGraphBuilder.poolScreen(
-) {
+fun NavGraphBuilder.poolScreen() {
     composable(
         route = PoolNavigationRoute,
     ) {

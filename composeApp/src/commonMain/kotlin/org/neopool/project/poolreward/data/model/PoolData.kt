@@ -12,7 +12,7 @@ data class PoolResponse(
     @SerialName("success")
     val success: Boolean,
     @SerialName("updated")
-    val updated: Long
+    val updated: Long,
 )
 
 @Serializable
@@ -28,5 +28,5 @@ data class PoolData(
     @SerialName("name")
     val name: String,
     @SerialName("tag")
-    val tag: String
-) 
+    val tag: String,
+)

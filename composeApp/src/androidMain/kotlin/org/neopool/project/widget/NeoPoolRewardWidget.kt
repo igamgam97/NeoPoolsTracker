@@ -32,8 +32,8 @@ import org.neopool.project.core.state.ErrorType
 import org.neopool.project.core.state.LoadingType
 import org.neopool.project.core.state.StateType
 import org.neopool.project.core.state.StateTypeWithError
-import org.neopool.project.poolreward.translations.Translations
 import org.neopool.project.core.util.formatTimestamp
+import org.neopool.project.poolreward.translations.Translations
 
 private val defaultTextColor = ColorProvider(Color.White)
 
@@ -184,10 +184,10 @@ private fun PreviewWidget() {
         WidgetBody(
             state = PoolWidgetUiState(
                 stateType = StateType.data(),
-                hashrate1d = 123456789L,
+                hashrate1d = 123_456_789L,
                 feeType = "Standard",
                 updated = System.currentTimeMillis(),
-            )
+            ),
         )
     }
 }
@@ -200,10 +200,10 @@ private fun PreviewLoadingWidget() {
         WidgetBody(
             state = PoolWidgetUiState(
                 stateType = StateType.loading(),
-                hashrate1d = 123456789L,
+                hashrate1d = 0L,
                 feeType = "Standard",
                 updated = System.currentTimeMillis(),
-            )
+            ),
         )
     }
 }
@@ -216,7 +216,7 @@ private fun PreviewErrorWidget() {
         WidgetBody(
             state = PoolWidgetUiState.Default.copy(
                 stateType = StateType.error("Error message"),
-            )
+            ),
         )
     }
 }

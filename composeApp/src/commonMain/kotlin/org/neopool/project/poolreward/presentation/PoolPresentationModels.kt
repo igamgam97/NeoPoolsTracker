@@ -17,7 +17,6 @@ data class PoolUiState(
             updated = 0,
         )
     }
-
 }
 
 sealed interface PoolSingleEvent {
@@ -28,3 +27,10 @@ sealed interface PoolAction {
     data object Init : PoolAction
     data object Update : PoolAction
 }
+
+val previewPoolUiState = PoolUiState(
+    stateType = StateType.data(),
+    hashrate1d = 123_456_923_408_324_789,
+    feeType = "Example Fee Type",
+    updated = 1_633_036_800L,
+)

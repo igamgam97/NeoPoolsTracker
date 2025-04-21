@@ -22,14 +22,14 @@ fun App() {
         MaterialTheme {
             Surface(
                 modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colors.background
+                color = MaterialTheme.colors.background,
             ) {
                 val navigator = rememberNavController()
 
                 NavHost(
                     navController = navigator,
                     startDestination = PoolNavigationRoute,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     poolScreen()
                 }

@@ -59,18 +59,13 @@ data class ErrorType<ErrorExt>(
     }
 }
 
-
 typealias DefaultStateType = StateType<Unit, Unit, Unit>
-
 
 typealias StateTypeWithData<DataExt> = StateType<Unit, DataExt, Unit>
 
-
 typealias StateTypeWithError<ErrorExt> = StateType<Unit, Unit, ErrorExt>
 
-
 typealias StateTypeWithDataError<DataExt, ErrorExt> = StateType<Unit, DataExt, ErrorExt>
-
 
 typealias StateTypeWithLoading<LoadingExt> = StateType<LoadingExt, Unit, Unit>
 

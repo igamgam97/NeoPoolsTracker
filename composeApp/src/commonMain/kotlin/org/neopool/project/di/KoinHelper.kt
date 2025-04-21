@@ -29,7 +29,7 @@ sealed class PoolResult {
     data class Failure(val message: String) : PoolResult()
 }
 
-class KoinHelper : KoinComponent  {
+class KoinHelper : KoinComponent {
     private val poolReward: PoolRepository by inject()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 

@@ -33,10 +33,10 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.neopool.project.core.state.StateType
-import org.neopool.project.core.viewmodel.collectInLaunchedEffectWithLifecycle
 import org.neopool.project.core.state.map
-import org.neopool.project.poolreward.translations.Translations
 import org.neopool.project.core.util.formatTimestamp
+import org.neopool.project.core.viewmodel.collectInLaunchedEffectWithLifecycle
+import org.neopool.project.poolreward.translations.Translations
 
 private fun PoolViewModel.init() {
     dispatch(PoolAction.Init)
@@ -48,8 +48,8 @@ private fun PoolViewModel.updateBtnClick() {
 
 @Composable
 fun PoolRoute(
-    viewModel: PoolViewModel = koinInject(),
     modifier: Modifier = Modifier,
+    viewModel: PoolViewModel = koinInject(),
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -141,7 +141,7 @@ private fun Data(
             enabled = !uiState.stateType.isLoading(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp)
+                .padding(vertical = 16.dp),
         ) {
             Icon(
                 imageVector = Icons.Default.Refresh,
@@ -161,7 +161,7 @@ private fun NewPoolRewardInfo(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -190,12 +190,7 @@ private fun NewPoolRewardInfo(
 @Composable
 fun PoolScreenPreview() {
     PoolScreen(
-        state = PoolUiState(
-            stateType = StateType.data(),
-            hashrate1d = 123456923408324789,
-            feeType = "Example Fee Type",
-            updated = 1633036800L,
-        )
+        state = previewPoolUiState,
     )
 }
 
@@ -205,6 +200,6 @@ fun LoadingPoolScreenPreview() {
     PoolScreen(
         state = PoolUiState.Default.copy(
             stateType = StateType.loading(),
-        )
+        ),
     )
 }

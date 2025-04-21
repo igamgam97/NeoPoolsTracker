@@ -1,6 +1,8 @@
+@file:Suppress("MatchingDeclarationName")
+
 package org.neopool.project
 
-class JVMPlatform: Platform {
+class JVMPlatform : Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"
 }
 

@@ -12,7 +12,7 @@ interface PoolRepository {
 }
 
 class PoolRepositoryImpl(
-    private val client: HttpClient
+    private val client: HttpClient,
 ) : PoolRepository {
     companion object {
         private const val BASE_URL = "https://api.neopool.com/xapi/v1"
@@ -33,4 +33,4 @@ class PoolRepositoryImpl(
     } catch (e: Exception) {
         Result.failure(e)
     }
-} 
+}
