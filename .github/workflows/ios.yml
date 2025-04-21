@@ -1,0 +1,38 @@
+name: iOS Build
+
+on:
+  push:
+    branches:
+      - main  # Измените на ветку, которую хотите отслеживать
+  pull_request:
+    branches:
+      - main  # Измените на ветку, которую хотите отслеживать
+  workflow_dispatch:  # Добавьте это для поддержки ручного запуска
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'  # Укажите соответствующую версию JDK
+          distribution: 'adopt'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew  # Добавляем шаг для установки разрешений на выполнение
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3  # Измените на v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build and Test
+        run: ./gradlew build  # или ./gradlew iosX64Test для тестов iOS

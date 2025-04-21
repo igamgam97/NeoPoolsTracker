@@ -1,4 +1,4 @@
-package org.planner3d.project
+package org.neopool.project
 
 import androidx.compose.ui.window.ComposeUIViewController
 
