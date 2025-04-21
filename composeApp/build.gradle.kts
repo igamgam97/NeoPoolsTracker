@@ -1,12 +1,25 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.jetbrains.kotlin.gradle.plugin)
+        classpath(libs.buildkonfig.gradle.plugin)
+    }
+}
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlin.serialization)
+    id("com.codingfeline.buildkonfig") version "+"
 }
 
 kotlin {
@@ -16,7 +29,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -27,12 +40,28 @@ kotlin {
             isStatic = true
         }
     }
-    
+
+    jvm("desktop")
+
     sourceSets {
-        
+
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
+        }
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.okhttp)
+            // Glance dependencies
+            implementation(libs.androidx.glance)
+            implementation(libs.androidx.glance.appwidget)
+            implementation(libs.androidx.glance.material3)
+            implementation(libs.androidx.glance.preview)
+            implementation(libs.androidx.glance.appwidget.preview)
+            implementation(libs.androidx.work.runtime.ktx)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -43,16 +72,41 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.bundles.ktor)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.composeVM)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.compose.navigation)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.darwin.ios)
+            implementation(libs.ktor.ios)
+        }
+    }
+
+    buildkonfig {
+        packageName = "com.codingfeline.buildkonfigsample"
+
+        defaultConfigs {
+            buildConfigField(
+                FieldSpec.Type.STRING,
+                "POOL_REWARD_AUTH_TOKEN",
+                propOrDef("poolRewardAuthToken"),
+            )
         }
     }
 }
 
 android {
-    namespace = "org.planner3d.project"
+    namespace = "org.neopool.project"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.planner3d.project"
+        applicationId = "org.neopool.project"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -78,3 +132,20 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
+compose.desktop {
+    application {
+        mainClass = "org.neopool.project.MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "org.neopool.project"
+            packageVersion = "1.0.0"
+        }
+    }
+}
+
+fun <T : Any> propOrDef(propertyName: String): T {
+    @Suppress("UNCHECKED_CAST")
+    val propertyValue = project.properties[propertyName] as T?
+    return propertyValue ?: error("Property $propertyName not found")
+}
