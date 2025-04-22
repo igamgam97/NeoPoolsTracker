@@ -18,37 +18,52 @@ struct Provider: TimelineProvider {
 
         KoinInitializer().startKoin()
         let helper = KoinHelper()
-        helper.greet { result in
-            let currentDate = Date()
-            let entry: SimpleEntry
 
-            if let success = result as? PoolResult.Success {
-                let response = success.data
-                let updated = DateTimeUtilKt.formatTimestamp(timestamp: response.updated)
-                entry = SimpleEntry(
-                    date: currentDate,
-                    hashrate: String(response.data.hashrate1d),
-                    feeType: response.data.feeType,
-                    updated: updated
-                )
-            } else if let failure = result as? PoolResult.Failure {
-                entry = SimpleEntry(
+        Task {
+            do {
+                let result = try await helper.getReward()
+
+                let entry: SimpleEntry
+                if let success = result as? PoolResult.Success {
+                    let response = success.data
+                    let updated = DateTimeUtilKt.formatTimestamp(timestamp: response.updated)
+                    entry = SimpleEntry(
+                        date: currentDate,
+                        hashrate: String(response.data.hashrate1d),
+                        feeType: response.data.feeType,
+                        updated: updated
+                    )
+                } else if let failure = result as? PoolResult.Failure {
+                    entry = SimpleEntry(
+                        date: currentDate,
+                        hashrate: "Error",
+                        feeType: failure.message,
+                        updated: "-"
+                    )
+                } else {
+                    entry = SimpleEntry(
+                        date: currentDate,
+                        hashrate: "Unknown",
+                        feeType: "Unknown",
+                        updated: "-"
+                    )
+                }
+
+                // Once data is processed, create the timeline and call the completion handler
+                let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
+                completion(timeline)
+
+            } catch {
+                // Handle any errors that might occur during the async call
+                let entry = SimpleEntry(
                     date: currentDate,
                     hashrate: "Error",
-                    feeType: failure.message,
+                    feeType: error.localizedDescription,
                     updated: "-"
                 )
-            } else {
-                entry = SimpleEntry(
-                    date: currentDate,
-                    hashrate: "Unknown",
-                    feeType: "Unknown",
-                    updated: "-"
-                )
+                let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
+                completion(timeline)
             }
-
-            let timeline = Timeline(entries: [entry], policy: .after(Calendar.current.date(byAdding: .hour, value: 1, to: currentDate)!))
-            completion(timeline)
         }
     }
 

@@ -21,6 +21,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.codingfeline.buildkonfig)
     alias(libs.plugins.neopool.detekt)
+    alias(libs.plugins.skie)
 }
 
 kotlin {

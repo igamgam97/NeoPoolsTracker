@@ -1,9 +1,5 @@
 package org.neopool.project.di
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.startKoin
@@ -30,16 +26,16 @@ sealed class PoolResult {
 }
 
 class KoinHelper : KoinComponent {
-    private val poolReward: PoolRepository by inject()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private val poolRewardRepository: PoolRepository by inject()
 
-    fun greet(callback: (PoolResult) -> Unit) {
-        coroutineScope.launch {
-            val result = poolReward.getPoolData()
-            when {
-                result.isSuccess -> callback(PoolResult.Success(result.getOrNull()!!))
-                result.isFailure -> callback(PoolResult.Failure(result.exceptionOrNull()?.message ?: "Unknown error"))
-            }
+    suspend fun getReward(): PoolResult {
+        val result = poolRewardRepository.getPoolData()
+        return if (result.isSuccess) {
+            PoolResult.Success(result.getOrNull()!!)
+        } else {
+            PoolResult.Failure(
+                result.exceptionOrNull()?.message ?: "Unknown error",
+            )
         }
     }
 }

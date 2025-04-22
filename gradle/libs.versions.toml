@@ -15,7 +15,7 @@ buildkonfig = "0.17.1"
 compose-multiplatform = "1.7.3"
 glance = "1.1.1"
 junit = "4.13.2"
-kotlin = "2.1.20"
+kotlin = "2.1.10"
 kotlinGradlePluginVersion = "1.9.0"
 kotlinxDatetime = "0.6.2"
 ktor = "2.3.7"
@@ -28,6 +28,7 @@ kotlinx-coroutines = "1.10.1"
 workRuntimeKtx = "2.10.0"
 detekt = "1.23.5"
 androidDetektCompose = "0.0.26"
+skie = "0.10.1"
 
 [libraries]
 androidx-glance = { module = "androidx.glance:glance", version.ref = "glance" }
@@ -84,6 +85,7 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 codingfeline-buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 # Plugins defined by this project
 neopool-detekt = { id = "org.neopool.detekt", version.ref = "detekt" }
