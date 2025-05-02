@@ -10,8 +10,10 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.KoinApplication
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import org.neopool.project.di.appModule
 import org.neopool.project.poolreward.data.repository.PoolRepository
 import java.time.Duration
 
@@ -47,7 +49,13 @@ class NeoPoolRewardTrackerWorker(
         }
     }
 
-    private val poolRepository: PoolRepository by inject()
+    private val poolRepository: PoolRepository by lazy {
+        KoinApplication.init()
+            .androidContext(context)
+            .modules(appModule())
+            .koin
+            .get<PoolRepository>()
+    }
 
     // TODO(GlebShcherbakov) move later to viewmodel by koin
     @Suppress("InjectDispatcher")

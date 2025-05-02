@@ -64,6 +64,7 @@ kotlin {
             implementation(libs.androidx.glance.preview)
             implementation(libs.androidx.glance.appwidget.preview)
             implementation(libs.androidx.work.runtime.ktx)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
