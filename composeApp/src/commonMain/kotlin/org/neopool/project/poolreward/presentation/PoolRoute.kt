@@ -32,11 +32,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.neopool.project.chart.PoolRewardChart
 import org.neopool.project.core.state.StateType
 import org.neopool.project.core.state.map
 import org.neopool.project.core.util.formatTimestamp
 import org.neopool.project.core.viewmodel.collectInLaunchedEffectWithLifecycle
 import org.neopool.project.poolreward.translations.Translations
+import org.neopool.project.poolreward.translations.Translations.CHART_DESCRIPTION
 
 private fun PoolViewModel.init() {
     dispatch(PoolAction.Init)
@@ -183,6 +185,15 @@ private fun NewPoolRewardInfo(
             style = MaterialTheme.typography.body1,
             textAlign = TextAlign.Start,
         )
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = CHART_DESCRIPTION,
+            style = MaterialTheme.typography.body1,
+            textAlign = TextAlign.Start,
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        PoolRewardChart()
     }
 }
 

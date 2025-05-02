@@ -29,6 +29,7 @@ workRuntimeKtx = "2.10.0"
 detekt = "1.23.5"
 androidDetektCompose = "0.0.26"
 skie = "0.10.1"
+vico = "2.1.2"
 
 [libraries]
 androidx-glance = { module = "androidx.glance:glance", version.ref = "glance" }
@@ -73,6 +74,8 @@ androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx"
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 android-detekt-compose = { group = "com.twitter.compose.rules", name = "detekt", version.ref = "androidDetektCompose" }
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+
+vico-multiplatform = { group = "com.patrykandpatrick.vico", name = "multiplatform", version.ref = "vico" }
 
 [bundles]
 ktor = ["ktor-core", "ktor-logging", "ktor-serialization", "ktor-negotiation"]

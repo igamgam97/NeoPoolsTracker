@@ -7,4 +7,6 @@ object Translations {
     const val FEE_TYPE = "Fee type"
     const val LAST_UPDATED = "Last Updated"
     const val RETRY = "Retry"
+    const val CHART_DESCRIPTION = "Chart with mock data"
+    const val CHART_TITLE = "Neo pool reward"
 }

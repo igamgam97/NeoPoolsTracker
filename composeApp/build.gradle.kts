@@ -83,6 +83,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.compose.navigation)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.vico.multiplatform)
         }
 
         iosMain.dependencies {
